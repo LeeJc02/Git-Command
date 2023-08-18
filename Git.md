@@ -38,6 +38,8 @@
 ## （四）常用命令
 
 ### Git基本语句
+
+**【其实还有个关于GitHub删除文件的操作，有点高端还不会】**
 #### 1.git init【初始化本地仓库】
 
 新项目执行Git初始化，并进行第一次提交
@@ -50,6 +52,9 @@ git remote add origin https://github.com/liyinchigithub/Git-commands.git
 git push origin master
 ```
 
+* 第四个语句应该是建立远程仓库的连接
+* 这个master我存疑, 因为GitHub上主分支用的是main
+
 #### 2.git clone【克隆远程仓库】
 
 对github、gitlab远程仓库，已有项目进行克隆
@@ -57,10 +62,11 @@ git push origin master
 ```shell
 git clone https://github.com/LeeJc02/Git-command.git
 ```
-
+* 一般用HTTP/HTTPS协议, 也可以用SSH协议进行下载
 #### 3.git pull、git fetch【不太懂】
 
 （1）将远程主机 origin 的 master 分支拉取过来，与本地的 brantest 分支合并。
+* 还是那句话, origin的master可能是main, 这有点不太好说
 
 ```shell
 git pull origin
@@ -69,11 +75,14 @@ git pull https://github.com/liyinchigithub/Git-commands.git
 
 远程分支是与当前分支合并
 
+* 注意当前分支, 比如vscode默认当前分支用的是master, 有的时候main和master就成了俩分支了
+
 ```shell
 git pull origin master
 ```
 
-（2）拉取代码，但不合并到本地
+（2）拉取代码，但不合并到本地【**`fetch`不太会**】
+
 
 ```shell
 git fetch --all
@@ -81,7 +90,7 @@ git fetch --tags
 git reset --hard origin/master
 ```
 
-（3）git pull 与git fetch区别：【我还是不太懂】
+（3）git pull 与git fetch区别：【**我还是不太懂, 可以略**】
 
 * 远端跟踪分支不同
 
@@ -117,6 +126,8 @@ git add README hello.js
 
 （2）添加当前目录下的所有文件到暂存区：
 
+* `.`表示添加到根目录
+
 ```shell
 git add .
 ```
@@ -137,6 +148,8 @@ git commit -m "" // 再次提交到仓库
 ```shell
 git rm --cached <file>
 ```
+
+* `cached`表示缓存区
 
 （3）如果在工作区不小心删错了某个文件，可以用 git checkout 将暂存区的文件覆盖工作区的文件，从而把误删的文件恢复：
 
@@ -162,21 +175,23 @@ git commit -m "提交内容备注"
 
 ```
 
-在执行git add .  之后执行git commit
+* 在执行`git add .`  之后执行`git commit``
 
-`-m` 表示将暂存区所有都进行提交
+* `-m` 表示将暂存区所有都进行提交
+
+
 #### 7.git log【查看提交日志】
 
-（1）查看提交历史
+（1）查看提交历史(其实我是想把它放在高端操作里的)
 
 
-（2）用 `--oneline` 选项来查看历史记录的简洁的版本
+（2）用 `--oneline` 选项来查看历史记录的**简洁的版本**
 
 ```shell
 git log --oneline
 ```
 
-（3）可以用 `--graph` 选项，查看历史中什么时候出现了分支、合并。
+（3）可以用 `--graph` 选项，查看历史中什么时候出现了**分支、合并**。
 
 
 （4）可以用 `--reverse` 参数来逆向显示所有日志。
@@ -191,7 +206,7 @@ git log --reverse --oneline
 git log --author
 ```
 
- 例如，比方说我们要找 Git 源码中 liyinchi 提交的部分
+ 例如，比方说我们要找 Git 源码中 Linus 提交的部分
 
 ```shell
 git log --author=Linus --oneline -5
@@ -206,13 +221,17 @@ git log --oneline --before={3.weeks.ago} --after={2020-04-23} --no-merges
 
  （7）git blame
 
+* 和上面的简介版本不同,这个命令似乎是细节满满,列出了每条是哪个大神所写的详细信息
+
 ```shell
 git blame <file>
 
 ```
 #### 8.git reset【从本地仓库回滚代码】
 
-（1）回滚代码，撤销某一次commit，并强推到远程仓库
+（1）回滚代码，撤销某一次commit，并**强推到远程仓库**
+
+* 有一说一,我觉得这个回滚蛮重要的
 
 如果需要删除的 commit 是最新的，那么可以通过 git reset 命令将代码回滚到之前某次提交的状态，但一定要将现有的代码做好备份，否则回滚之后这些变动都会消失。具体操作如下：
 
@@ -230,13 +249,13 @@ git push origin HEAD --force // 强制推送到远端
 git reset HEAD^
 ```
 
-（3）回退 hello.js 文件的版本到上一个版本
+（3）回退 某个文件的版本到上一个版本
 
 ```shell
 git reset HEAD^ hello.js
 ```
 
-执行 git reset HEAD 命令用于取消已缓存的内容。
+执行 git reset HEAD 命令用于**取消已缓存的内容**。
 
 执行 git reset HEAD 以取消之前 git add 添加，但不希望包含在下一提交快照中的缓存 。
 
@@ -264,7 +283,9 @@ git reset --soft HEAD~3
 
 备注：此次提交之后的修改会被退回到暂存区
 
-（6）回退到某个版本回退点之前的所有信息。
+（6）回退到某个版本**回退点之前**的所有信息。
+
+* 回退的回退,有点麻了
 
 ```shell
 git reset –hard bae128
@@ -272,13 +293,13 @@ git reset –hard bae128
 
 备注：**此次提交之后的修改不做任何保留**，`git status` 查看工作区是没有记录的。
 
-（7）将本地的状态回退到和远程的一样
+（7）将本地的状态回退到和远程的一样, 恢复远程段数据
 
 ```shell
 git reset --hard origin/master
 ```
 
-注意：谨慎使用` –hard `参数，它会删除回退点之前的所有信息。
+注意：谨慎使用` –hard `参数，它会**删除回退点之前的所有信息**。
 
 （8）HEAD 说明：
 
@@ -300,7 +321,12 @@ git reset --hard hash // 将 hash 换成要恢复的历史记录的 hash 值
 
 注意：删除中间某次提交时最好不要用 git reset 回退远程库，因为之后其他人提交代码时用 git pull 也会把自己的本地仓库回退到之前的版本，容易出现差错进而增加不必要的工作量。
 
+* 省流: 回退远程库会让人家同时进行的恢复远程库时倒大霉
+
 #### 9.git branch【分支相关操作】
+
+* 分支操作都不太懂, 看看差不多得了, 反正也没咋用到过(小白发言)
+* 另外分支操作, 一定小心master和main的统一性
 
 （1）新建分支
 
@@ -340,7 +366,7 @@ git push origin --delete 远程分支名称
 
 如何本地分支已提交到远程仓库，想删除这个分支，除了删除本地分支，还需要远程分支也要删除，以上两个命令都要执行一次。
 
-#### 10.git status【状态】
+#### 10.git status【查看状态, 感觉也用的不多】
 
 查看当前分支状态
 
@@ -359,13 +385,15 @@ Changes to be committed:
 
 #### 11.git checkout【切换分支】
 
-切换分支
+切换分支,跟上述`git branch`相关分支操作连用较多
 
 
 
 #### 12.git push【推送操作】
 
 （1）将本地的 master 分支推送到 origin 主机的 master 分支。
+
+* main啊!main啊!!强调很多遍了
 
 ```shell
 git push origin master
@@ -377,7 +405,7 @@ git push origin master
 git push --force origin master
 ```
 
-（3）指定分支
+（3）指定分支(跟个公式一样)
 
 ```shell
 git push <远程主机名> <本地分支名>:<远程分支名>
@@ -394,7 +422,14 @@ git commit -m "提交内容注释"
 git push origin master
 ```
 
+* 查看分支
+* 切换分支
+* 分支添加到暂存区
+* 暂存区提交到本地库
+* 推送远程库
+
 远程项目仓库对提交上来的分支代码还有做merge操作，才可以把分支代码合并到master中
+(那么问题来了,merge又是个啥呢?)
 
 
 
@@ -402,7 +437,7 @@ git push origin master
 
 
 
-#### 13.git revert【还原放弃某次提交】
+#### 13.git revert【撤销某次提交】
 
 
 `git revert` 之前的提交仍会保留在 `git log` 中，而此次撤销会做为一次新的提交。
@@ -441,7 +476,7 @@ git push
 
 
 
-#### 14.git remote【远程仓库操作】
+#### 14.git remote【远程操作】
 
 
 远程仓库操作
@@ -475,7 +510,8 @@ git remote rm name
 git remote rename old_name new_name 
 ```
 
-
+* 有些remote参数我也没看明白,建议边用边查
+* 理论上来讲也可以用remote命令进行远程库的文件管理
 
 #### 15.git config【配置命令，可进阶】
 
@@ -498,9 +534,13 @@ core.precomposeunicode=true
 git config -e
 ```
 ---
+* 包括如果push不了, 就需要config语句把默认的HTTP/HTTPS通道换成更安全的SSH通道
+
+
 
 ### Git进阶语句
 
+下列语句不再赘述(~~其实是因为我也不会~~),用的较少,建议边查边用,完结撒花!!
 
 #### 1.git tag【打标签】
 
